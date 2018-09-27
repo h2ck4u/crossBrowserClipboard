@@ -12,80 +12,22 @@
     </div>
 </body>
 <script>
-    var browser = getBrowser(navigator.userAgent);
     function attachClipboardEvent() {
         var textArea = document.getElementById('textArea');
         var clipboard = document.getElementById('clipboard');
+        textArea.addEventListener('copy', function(e) {
+            console.log('copy event called!');
+            e.preventDefault();
+            e.clipboardData.setData('text/plain', textArea.innerText);
+            e.clipboardData.setData('text/html', '<b>' + textArea.innerText + '</b>');
+            clipboard.innerText = 'text/html : ' + e.clipboardData.getData('text/html') + ', text/plain: ' + e.clipboardData.getData('text/plain');
+        });
 
-        if (browser.isMSEdge || browser.isIE11) {
-            textArea.addEventListener('beforecopy', function(e) {
-                console.log('beforecopy event called!');
-                e.preventDefault();
-                clipboard.innerText = '';
-                clipboard.innerText = textArea.innerText;
-                selectElementContents(clipboard);
-                clipboard.focus();
-
-            });
-
-            textArea.addEventListener('beforecut', function(e) {
-                console.log('beforecut event called!');
-                e.preventDefault();
-                clipboard.innerText = '';
-                selectElementContents(textArea);
-                clipboard.innerText = textArea.innerText;
-            });
-
-            textArea.addEventListener('beforepaste', function(e) {
-                console.log('beforepaste event called!');
-                e.preventDefault();
-                clipboard.innerText = '';
-                clipboard.focus();
-                setTimeout(function () {
-                    textArea.innerText += clipboard.innerText;
-                }, 0);
-            });
-        } else {
-            textArea.addEventListener('copy', function(e) {
-                console.log('copy event called!');
-                e.preventDefault();
-                e.clipboardData.setData('text/plain', textArea.innerText);
-                e.clipboardData.setData('text/html', '<b>' + textArea.innerText + '</b>');
-                clipboard.innerText = 'text/html : ' + e.clipboardData.getData('text/html') + ', text/plain: ' + e.clipboardData.getData('text/plain');
-            });
-
-            textArea.addEventListener('cut', function(e) {
-                console.log('cut event called!');
-                e.preventDefault();
-                e.clipboardData.setData('text/plain', textArea.innerText);
-                e.clipboardData.setData('text/html', '<b>' + textArea.innerText + '</b>');
-                textArea.innerText = '';
-                clipboard.innerText = 'text/html : ' + e.clipboardData.getData('text/html') + ', text/plain: ' + e.clipboardData.getData('text/plain');
-            });
-
-            textArea.addEventListener('paste', function(e) {
-                console.log('paste event called!');
-                e.preventDefault();
-                textArea.innerText += e.clipboardData.getData('text/plain');
-            });
-        }
-    }
-    function selectElementContents(el) {
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-
-    function getBrowser(agent) {
-        const userAgent = (agent || navigator.userAgent).toLowerCase();
-        const result = {};
-        // browser
-        result.isMSEdge = userAgent.indexOf('edge') > -1;
-        result.isIE11 = userAgent.indexOf('trident/7') > -1;
-        result.isChrome = userAgent.indexOf('chrome') > -1 && !result.isMSEdge;
-        return result;
+        textArea.addEventListener('paste', function(e) {
+            console.log('paste event called!');
+            e.preventDefault();
+            textArea.innerText += e.clipboardData.getData('text/plain');
+        });
     }
 </script>
 </html>
