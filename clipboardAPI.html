@@ -28,22 +28,13 @@
 
             });
 
-            textArea.addEventListener('beforecut', function(e) {
-                console.log('beforecut event called!');
-                e.preventDefault();
-                clipboard.innerText = '';
-                selectElementContents(textArea);
-                clipboard.innerText = textArea.innerText;
-            });
-
             textArea.addEventListener('beforepaste', function(e) {
                 console.log('beforepaste event called!');
                 e.preventDefault();
                 clipboard.innerText = '';
-                clipboard.focus();
-                setTimeout(function () {
-                    textArea.innerText += clipboard.innerText;
-                }, 0);
+                textArea.innerText += clipboard.innerText;
+                // setTimeout(function () {
+                // }, 0);
             });
         } else {
             textArea.addEventListener('copy', function(e) {
