@@ -33,9 +33,9 @@
                 e.preventDefault();
                 clipboard.innerText = '';
                 clipboard.focus();
-                setTimeout(function () {
-                    textArea.innerText += clipboard.innerText;
-                }, 0);
+                // setTimeout(function () {
+                textArea.innerText += clipboard.innerText;
+                // }, 0);
             });
         } else {
             textArea.addEventListener('copy', function(e) {
