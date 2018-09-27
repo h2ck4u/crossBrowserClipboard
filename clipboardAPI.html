@@ -28,14 +28,6 @@
 
             });
 
-            textArea.addEventListener('beforecut', function(e) {
-                console.log('beforecut event called!');
-                e.preventDefault();
-                clipboard.innerText = '';
-                selectElementContents(textArea);
-                clipboard.innerText = textArea.innerText;
-            });
-
             textArea.addEventListener('beforepaste', function(e) {
                 console.log('beforepaste event called!');
                 e.preventDefault();
