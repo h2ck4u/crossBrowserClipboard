@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clipboard API</title>
+</head>
+<body onload=attachClipboardEvent()>
+    <div id="textArea" style="width: 200px; height: 100px; border: solid 1px black" contenteditable="true"></div>
+    <div style="width: 300px; height: 100px; margin-top: 50px;">
+        <label>클립보드</label>
+        <div id="clipboard" style="width: 200px; height: 100px; border: solid 1px orange" contenteditable="true"></div>
+    </div>
+</body>
+<script>
+    function attachClipboardEvent() {
+        var textArea = document.getElementById('textArea');
+        var clipboard = document.getElementById('clipboard');
+        textArea.addEventListener('copy', function(e) {
+            console.log('copy event called!');
+            e.preventDefault();
+            e.clipboardData.setData('text/plain', textArea.innerText);
+            e.clipboardData.setData('text/html', '<b>' + textArea.innerText + '</b>');
+            clipboard.innerText = 'text/html : ' + e.clipboardData.getData('text/html') + ', text/plain: ' + e.clipboardData.getData('text/plain');
+        });
+    }
+</script>
+</html>
