@@ -22,6 +22,21 @@
             e.clipboardData.setData('text/html', '<b>' + textArea.innerText + '</b>');
             clipboard.innerText = 'text/html : ' + e.clipboardData.getData('text/html') + ', text/plain: ' + e.clipboardData.getData('text/plain');
         });
+        
+        textArea.addEventListener('cut', function(e) {
+            console.log('cut event called!');
+            e.preventDefault();
+            e.clipboardData.setData('text/plain', textArea.innerText);
+            e.clipboardData.setData('text/html', '<b>' + textArea.innerText + '</b>');
+            textArea.innerText = '';
+            clipboard.innerText = 'text/html : ' + e.clipboardData.getData('text/html') + ', text/plain: ' + e.clipboardData.getData('text/plain');
+        });
+
+        textArea.addEventListener('paste', function(e) {
+            console.log('paste event called!');
+            e.preventDefault();
+            textArea.innerText += e.clipboardData.getData('text/plain');
+        });
     }
 </script>
 </html>
