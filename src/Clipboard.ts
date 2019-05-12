@@ -1,12 +1,15 @@
 class Clipbaord {
     browser: {};
+    elClipboard: any;
     constructor() {
         this.browser = {};
+        this.elClipboard;
         this.init();
     }
 
     init() {
         this.__checkBrowser__();
+        this.__createClipboardElement__();
     }
 
     copy() {
@@ -16,8 +19,20 @@ class Clipbaord {
     paste() {
 
     }
+
+    
     /**
-     * checking current browser and set browser.
+     * create clipboard element that is contentEditable Element.
+     */
+    __createClipboardElement__() {
+        const elClipboard = document.createElement('div');
+        elClipboard.contentEditable = 'true';
+
+        this.elClipboard = elClipboard;
+    }
+
+    /**
+     * check current browser and set browser.
      */
     __checkBrowser__() {
         const userAgent = navigator.userAgent.toLowerCase();
