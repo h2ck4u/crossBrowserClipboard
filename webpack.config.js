@@ -2,14 +2,14 @@ const webpack = require('webpack');
 const path = require('path');
 
 const config = {
-  entry: './src/Clipboard.ts',
+  entry: './src/clipboard.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'clipboard.js',
+    library: 'ClipboardJS'
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(ts|tsx)?$/,
         loader: 'ts-loader',
         exclude: /node_modules/

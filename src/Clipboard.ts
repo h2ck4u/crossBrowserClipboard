@@ -1,10 +1,21 @@
-class Clipbaord {
-    browser: {};
+class Clipboard {
+    browser: {
+        isChrome: boolean,
+        isMSEdge: boolean,
+        isIE11: boolean,
+    };
     elClipboard: any;
-    constructor() {
-        this.browser = {};
+    targetElement: HTMLElement;
+    constructor(element: HTMLElement) {
+        this.browser = {
+            isChrome: false,
+            isMSEdge: false,
+            isIE11: false,
+        };
+        this.targetElement = element;
         this.elClipboard;
         this.init();
+        this.copy = this.copy.bind(this);
     }
 
     init() {
@@ -12,15 +23,23 @@ class Clipbaord {
         this.__createClipboardElement__();
     }
 
-    copy() {
-        
+    copy(e: any, text: String) {
+        console.log('copy event is called!');
+        if (this.browser.isChrome) { // clipboardData에 접근 가능 할 때.
+            e.clipboardData.setData('text/plain', text);
+        } else {
+            this.elClipboard.innerText = '';
+            this.elClipboard.innerText = text;
+            this.__selectElementContents__(this.elClipboard);
+            this.elClipboard.focus();
+        }
     }
 
     paste() {
-
+        console.log('paste event is called!');
     }
 
-    
+
     /**
      * create clipboard element that is contentEditable Element.
      */
@@ -42,6 +61,16 @@ class Clipbaord {
             isChrome: userAgent.indexOf('chrome') > -1 && userAgent.indexOf('edge') < 0
         };
     }
+
+    __selectElementContents__(el: HTMLElement) {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const sel = window.getSelection();
+        if (sel) {
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+    }
 }
 
-export default Clipbaord;
+export default Clipboard;
