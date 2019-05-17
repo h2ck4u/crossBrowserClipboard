@@ -5,15 +5,13 @@ class Clipboard {
         isIE11: boolean,
     };
     elClipboard: any;
-    targetElement: HTMLElement;
-    constructor(element: HTMLElement) {
+    targetElement: any;
+    constructor(element: any) {
         this.browser = {
             isChrome: false,
             isMSEdge: false,
             isIE11: false,
         };
-        this.targetElement = element;
-        this.elClipboard;
         this.init();
         this.copy = this.copy.bind(this);
     }
@@ -23,10 +21,13 @@ class Clipboard {
         this.__createClipboardElement__();
     }
 
-    copy(e: any, text: String) {
-        console.log('copy event is called!');
+    copy(e: any, text: string) {
+        console.log('copy event is called!', text);
         if (this.browser.isChrome) { // clipboardData에 접근 가능 할 때.
             e.clipboardData.setData('text/plain', text);
+            e.clipboardData.setData('text/html', text);
+            this.elClipboard.innerText = text;
+            console.log(this.elClipboard.innerText);
         } else {
             this.elClipboard.innerText = '';
             this.elClipboard.innerText = text;
@@ -39,13 +40,13 @@ class Clipboard {
         console.log('paste event is called!');
     }
 
-
     /**
      * create clipboard element that is contentEditable Element.
      */
     __createClipboardElement__() {
         const elClipboard = document.createElement('div');
         elClipboard.contentEditable = 'true';
+        document.body.append(elClipboard);
 
         this.elClipboard = elClipboard;
     }

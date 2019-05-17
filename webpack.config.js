@@ -6,7 +6,9 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'clipboard.js',
-    library: 'ClipboardJS'
+    library: 'ClipboardJS',
+    libraryTarget: 'umd',
+    globalObject: 'window'
   },
   module: {
     rules: [{
