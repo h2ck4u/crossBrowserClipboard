@@ -8,7 +8,8 @@ const config = {
     filename: 'clipboard.js',
     library: 'ClipboardJS',
     libraryTarget: 'umd',
-    globalObject: 'window'
+    libraryExport: 'default',
+    auxiliaryComment: "umd comment"
   },
   module: {
     rules: [{

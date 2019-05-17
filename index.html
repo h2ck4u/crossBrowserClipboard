@@ -18,7 +18,7 @@
 <script>
     function initCB() {
         const elTextArea = document.getElementById('textArea');
-        const cb = new ClipboardJS.default(elTextArea);
+        const cb = new ClipboardJS(elTextArea);
         elTextArea.addEventListener('copy', function (e) {
             e.preventDefault();
             cb.copy(e, 'testData');
