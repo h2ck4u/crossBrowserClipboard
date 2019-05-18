@@ -9,7 +9,7 @@ const config = {
     library: 'ClipboardJS',
     libraryTarget: 'umd',
     libraryExport: 'default',
-    auxiliaryComment: "umd comment"
+    auxiliaryComment: 'umd comment',
   },
   module: {
     rules: [{
