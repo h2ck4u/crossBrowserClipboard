@@ -16,12 +16,13 @@ npm install ***
 const cb = new ClipboardJS(elTextArea);
 elTextArea.addEventListener('copy', function (e) {
     e.preventDefault();
-    cb.copy(e, 'testData');
+    const text = ''; // 클립보드에 넣을 데이터.
+    cb.copy(e, text);
 });
 
 elTextArea.addEventListener('paste', function (e) {
     e.preventDefault();
-    cb.paste();
+    const text = cb.paste();
 });
         
 ~~~
