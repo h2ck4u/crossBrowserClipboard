@@ -22,7 +22,12 @@
         elTextArea.addEventListener('copy', function (e) {
             e.preventDefault();
             cb.copy(e, 'testData');
-        })
+        });
+
+        elTextArea.addEventListener('paste', function (e) {
+            e.preventDefault();
+            cb.paste(e);
+        });
     }
 </script>
 

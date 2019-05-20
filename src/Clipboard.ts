@@ -36,8 +36,10 @@ class Clipboard {
         }
     }
 
-    paste() {
+    paste(e: any) {
         console.log('paste event is called!');
+        this.elClipboard.innerText = e.clipboardData.getData('text');
+        return e.clipboardData.getData('text');
     }
 
     /**
