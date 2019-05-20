@@ -21,7 +21,7 @@
         const cb = new ClipboardJS(elTextArea);
         elTextArea.addEventListener('copy', function (e) {
             e.preventDefault();
-            cb.copy(e, 'testData');
+            cb.copy(e);
         });
 
         elTextArea.addEventListener('paste', function (e) {
