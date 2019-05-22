@@ -6,7 +6,7 @@ class Clipboard {
     };
     elClipboard: any;
     targetElement: any;
-    constructor(element: any) {
+    constructor() {
         this.browser = {
             isChrome: false,
             isMSEdge: false,
@@ -21,8 +21,9 @@ class Clipboard {
         this.__createClipboardElement__();
     }
 
-    copy(e: any, text: string) {
-        console.log('copy event is called!', text);
+    copy(e: any) {
+        console.log('copy event is called!');
+        const text = window.getSelection().toString();
         if (this.browser.isChrome) { // clipboardData에 접근 가능 할 때.
             e.clipboardData.setData('text/plain', text);
             e.clipboardData.setData('text/html', text);
