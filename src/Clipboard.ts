@@ -19,6 +19,7 @@ class Clipboard {
     init() {
         this.__checkBrowser__();
         this.__createClipboardElement__();
+        this.__addEventListener__();
     }
 
     copy(e: any) {
@@ -41,6 +42,12 @@ class Clipboard {
         console.log('paste event is called!');
         this.elClipboard.innerText = e.clipboardData.getData('text');
         return e.clipboardData.getData('text');
+    }
+
+    __addEventListener__() {
+        this.elClipboard.addEventListener('copy', this.copy);
+
+        this.elClipboard.addEventListener('paste', this.paste);
     }
 
     /**
