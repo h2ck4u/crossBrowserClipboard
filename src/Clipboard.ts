@@ -5,8 +5,9 @@ class Clipboard {
         isIE11: boolean,
     };
     elClipboard: any;
-    targetElement: any;
-    constructor() {
+    targetElement: HTMLTextAreaElement;
+    constructor(targetElement: HTMLTextAreaElement) {
+        this.targetElement = targetElement;
         this.browser = {
             isChrome: false,
             isMSEdge: false,
@@ -19,28 +20,64 @@ class Clipboard {
     init() {
         this.__checkBrowser__();
         this.__createClipboardElement__();
+        this.__bindEvent__();
     }
 
     copy(e: any) {
         console.log('copy event is called!');
         const text = window.getSelection().toString();
-        if (this.browser.isChrome) { // clipboardData에 접근 가능 할 때.
-            e.clipboardData.setData('text/plain', text);
-            e.clipboardData.setData('text/html', text);
-            this.elClipboard.innerText = text;
-            console.log(this.elClipboard.innerText);
-        } else {
-            this.elClipboard.innerText = '';
-            this.elClipboard.innerText = text;
-            this.__selectElementContents__(this.elClipboard);
-            this.elClipboard.focus();
-        }
+        e.clipboardData.setData('text/plain', text);
+        e.clipboardData.setData('text/html', text);
+        this.elClipboard.innerText = text;
+        console.log(this.elClipboard.innerText);
+
     }
 
-    paste(e: any) {
+    /**
+     * get Data from clipboardData from event.
+     * @param {ClipboardEvent} e
+     * @returns {String} text
+     */
+    paste(e: ClipboardEvent) {
         console.log('paste event is called!');
-        this.elClipboard.innerText = e.clipboardData.getData('text');
-        return e.clipboardData.getData('text');
+        this.elClipboard.innerText = e.clipboardData.getData('text'); // 임시코드
+        let text = e.clipboardData.getData('text');
+        return text;
+    }
+
+    copyForIE() {
+        console.log('copyForIE event is called!');
+        const selectionStart = this.targetElement.selectionStart;
+        const selectionEnd = this.targetElement.selectionEnd;
+        const text = this.targetElement.value.slice(selectionStart, selectionEnd)
+        this.elClipboard.innerText = text;
+        this.__selectElementContents__(this.elClipboard);
+        this.elClipboard.focus();
+    }
+
+    /**
+     * get Data from clipboardData.
+     * beforepaste event trigger to paste event. 
+     * @returns {String} text
+     */
+    pasteForIE() {
+        console.log('pasteForIE event is called!');
+        this.elClipboard.innerText = '';
+        this.elClipboard.focus();
+        return this.elClipboard.innerText;
+    }
+
+    /**
+     * bind 'copy', 'paste', 'beforecopy', 'beforepaste' event To Target.
+     */
+    __bindEvent__() {
+        if (this.browser.isChrome) {
+            this.targetElement.addEventListener('copy', this.copy.bind(this));
+            this.targetElement.addEventListener('paste', this.paste.bind(this));
+        } else if (this.browser.isIE11 || this.browser.isMSEdge) {
+            this.targetElement.addEventListener('beforecopy', this.copyForIE.bind(this));
+            this.targetElement.addEventListener('beforepaste', this.pasteForIE.bind(this));
+        }
     }
 
     /**
@@ -49,7 +86,9 @@ class Clipboard {
     __createClipboardElement__() {
         const elClipboard = document.createElement('div');
         elClipboard.contentEditable = 'true';
-        document.body.append(elClipboard);
+        elClipboard.id = 'clipboard';
+        elClipboard.style.cssText = "width: 200px; height: 100px; border: solid 1px orange";
+        document.body.appendChild(elClipboard);
 
         this.elClipboard = elClipboard;
     }
@@ -66,6 +105,9 @@ class Clipboard {
         };
     }
 
+    /**
+     * select Element target Element.
+     */
     __selectElementContents__(el: HTMLElement) {
         const range = document.createRange();
         range.selectNodeContents(el);
