@@ -5,8 +5,9 @@ class Clipboard {
         isIE11: boolean,
     };
     elClipboard: any;
-    targetElement: any;
-    constructor() {
+    targetElement: HTMLElement;
+    constructor(targetElement: HTMLElement) {
+        this.targetElement = targetElement;
         this.browser = {
             isChrome: false,
             isMSEdge: false,
@@ -19,7 +20,7 @@ class Clipboard {
     init() {
         this.__checkBrowser__();
         this.__createClipboardElement__();
-        this.__addEventListener__();
+        this.__bindEvent__();
     }
 
     copy(e: any) {
@@ -30,24 +31,41 @@ class Clipboard {
             e.clipboardData.setData('text/html', text);
             this.elClipboard.innerText = text;
             console.log(this.elClipboard.innerText);
-        } else {
-            this.elClipboard.innerText = '';
-            this.elClipboard.innerText = text;
-            this.__selectElementContents__(this.elClipboard);
-            this.elClipboard.focus();
         }
     }
 
     paste(e: any) {
         console.log('paste event is called!');
-        this.elClipboard.innerText = e.clipboardData.getData('text');
-        return e.clipboardData.getData('text');
+        let text = '';
+        if (this.browser.isChrome) { // clipboardData에 접근 가능 할 때.
+            this.elClipboard.innerText = e.clipboardData.getData('text'); // 임시코드
+            text = e.clipboardData.getData('text');
+        }
+        return text;
     }
 
-    __addEventListener__() {
-        this.elClipboard.addEventListener('copy', this.copy);
+    pasteForIE() {
+        console.log('pasteForIE event is called!');
+        this.elClipboard.innerText = '';
+        this.elClipboard.focus();
+    }
 
-        this.elClipboard.addEventListener('paste', this.paste);
+    copyForIE() {
+        console.log('copyForIE event is called!');
+        const text = window.getSelection().toString();
+        this.elClipboard.innerText = text;
+        this.__selectElementContents__(this.elClipboard);
+        this.elClipboard.focus();
+    }
+
+    __bindEvent__() {
+        if (this.browser.isChrome) {
+            this.targetElement.addEventListener('copy', this.copy.bind(this));
+            this.targetElement.addEventListener('paste', this.paste.bind(this));
+        } else if (this.browser.isIE11 || this.browser.isMSEdge) {
+            this.targetElement.addEventListener('beforecopy', this.copyForIE.bind(this));
+            this.targetElement.addEventListener('beforepaste', this.pasteForIE.bind(this));
+        }
     }
 
     /**
