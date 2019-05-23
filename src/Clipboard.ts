@@ -5,8 +5,8 @@ class Clipboard {
         isIE11: boolean,
     };
     elClipboard: any;
-    targetElement: HTMLElement;
-    constructor(targetElement: HTMLElement) {
+    targetElement: HTMLTextAreaElement;
+    constructor(targetElement: HTMLTextAreaElement) {
         this.targetElement = targetElement;
         this.browser = {
             isChrome: false,
@@ -33,29 +33,37 @@ class Clipboard {
 
     }
 
-    paste(e: any) {
+    /**
+     * get Data from clipboardData from event.
+     * @param {ClipboardEvent} e
+     * @returns {String} text
+     */
+    paste(e: ClipboardEvent) {
         console.log('paste event is called!');
-        let text = '';
-        if (this.browser.isChrome) { // clipboardData에 접근 가능 할 때.
-            this.elClipboard.innerText = e.clipboardData.getData('text'); // 임시코드
-            text = e.clipboardData.getData('text');
-        }
+        this.elClipboard.innerText = e.clipboardData.getData('text'); // 임시코드
+        let text = e.clipboardData.getData('text');
         return text;
     }
 
-    copyForIE(e: Event) {
-        console.log('copyForIE event is called!', e);
-        let text = window.getSelection().toString();
+    copyForIE() {
+        console.log('copyForIE event is called!');
+        const selectionStart = this.targetElement.selectionStart;
+        const selectionEnd = this.targetElement.selectionEnd;
+        const text = this.targetElement.value.slice(selectionStart, selectionEnd)
         this.elClipboard.innerText = text;
         this.__selectElementContents__(this.elClipboard);
         this.elClipboard.focus();
     }
 
+    /**
+     * get Data from clipboardData.
+     * beforepaste event trigger to paste event. 
+     * @returns {String} text
+     */
     pasteForIE() {
         console.log('pasteForIE event is called!');
         this.elClipboard.innerText = '';
         this.elClipboard.focus();
-        this.targetElement.focus();
         return this.elClipboard.innerText;
     }
 
