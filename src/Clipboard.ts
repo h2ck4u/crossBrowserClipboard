@@ -44,18 +44,19 @@ class Clipboard {
         return text;
     }
 
+    copyForIE(e: Event) {
+        console.log('copyForIE event is called!', e);
+        let text = window.getSelection().toString();
+        this.elClipboard.innerText = text;
+        this.__selectElementContents__(this.elClipboard);
+        this.elClipboard.focus();
+    }
+
     pasteForIE() {
         console.log('pasteForIE event is called!');
         this.elClipboard.innerText = '';
         this.elClipboard.focus();
-    }
-
-    copyForIE() {
-        console.log('copyForIE event is called!');
-        const text = window.getSelection().toString();
-        this.elClipboard.innerText = text;
-        this.__selectElementContents__(this.elClipboard);
-        this.elClipboard.focus();
+        return this.elClipboard.innerText;
     }
 
     __bindEvent__() {
@@ -74,7 +75,9 @@ class Clipboard {
     __createClipboardElement__() {
         const elClipboard = document.createElement('div');
         elClipboard.contentEditable = 'true';
-        document.body.append(elClipboard);
+        elClipboard.id = 'clipboard';
+        elClipboard.style.cssText = "width: 200px; height: 100px; border: solid 1px orange";
+        document.body.appendChild(elClipboard);
 
         this.elClipboard = elClipboard;
     }
