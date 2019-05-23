@@ -26,12 +26,11 @@ class Clipboard {
     copy(e: any) {
         console.log('copy event is called!');
         const text = window.getSelection().toString();
-        if (this.browser.isChrome) { // clipboardData에 접근 가능 할 때.
-            e.clipboardData.setData('text/plain', text);
-            e.clipboardData.setData('text/html', text);
-            this.elClipboard.innerText = text;
-            console.log(this.elClipboard.innerText);
-        }
+        e.clipboardData.setData('text/plain', text);
+        e.clipboardData.setData('text/html', text);
+        this.elClipboard.innerText = text;
+        console.log(this.elClipboard.innerText);
+
     }
 
     paste(e: any) {
@@ -56,9 +55,13 @@ class Clipboard {
         console.log('pasteForIE event is called!');
         this.elClipboard.innerText = '';
         this.elClipboard.focus();
+        this.targetElement.focus();
         return this.elClipboard.innerText;
     }
 
+    /**
+     * bind 'copy', 'paste', 'beforecopy', 'beforepaste' event To Target.
+     */
     __bindEvent__() {
         if (this.browser.isChrome) {
             this.targetElement.addEventListener('copy', this.copy.bind(this));
@@ -94,6 +97,9 @@ class Clipboard {
         };
     }
 
+    /**
+     * select Element target Element.
+     */
     __selectElementContents__(el: HTMLElement) {
         const range = document.createRange();
         range.selectNodeContents(el);
