@@ -1,3 +1,7 @@
+### What is CrossBrowserClipboard?
+
+If you use editor that is not contentEditable. You can get Data from Clipboard or set Data to Clipboard By CrossBrowserClipboard.
+
 ### Copy to clipboard for the Web
 
 ### Paste to web for the clipboard
@@ -13,26 +17,8 @@ npm install ***
 <script src='./dist/clipboard.js'></script>
 ~~~
 ~~~javascript
-const cb = new ClipboardJS(elTextArea);
-elTextArea.addEventListener('copy', function (e) {
-    e.preventDefault();
-    cb.copy(e);
-});
-
-elTextArea.addEventListener('paste', function (e) {
-    e.preventDefault();
-    const text = cb.paste();
-});
-
-elTextArea.addEventListener('beforecopy', function (e) {
-    e.preventDefault();
-    cb.copy(e);
-});
-
-elTextArea.addEventListener('beforepaste', function (e) {
-    e.preventDefault();
-    const text = cb.paste();
-});
+const elTextArea = document.getElementById('textArea');
+new ClipboardJS(elTextArea);
 ~~~
 
 ### API
