@@ -18,16 +18,7 @@
 <script>
     function initCB() {
         const elTextArea = document.getElementById('textArea');
-        const cb = new ClipboardJS(elTextArea);
-        elTextArea.addEventListener('copy', function (e) {
-            e.preventDefault();
-            cb.copy(e);
-        });
-
-        elTextArea.addEventListener('paste', function (e) {
-            e.preventDefault();
-            cb.paste(e);
-        });
+        new ClipboardJS(elTextArea);
     }
 </script>
 
