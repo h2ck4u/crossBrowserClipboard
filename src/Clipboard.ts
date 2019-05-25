@@ -47,9 +47,16 @@ class Clipboard {
 
     copyForIE() {
         console.log('copyForIE event is called!');
-        const selectionStart = this.targetElement.selectionStart;
-        const selectionEnd = this.targetElement.selectionEnd;
-        const text = this.targetElement.value.slice(selectionStart, selectionEnd)
+        const isContentEditable = this.targetElement.contentEditable;
+        const isTextArea = this.targetElement.tagName === 'TEXTAREA';
+        let text;
+        if (isContentEditable) {
+            text = window.getSelection().toString();
+        } else if (isTextArea) {
+            const selectionStart = this.targetElement.selectionStart;
+            const selectionEnd = this.targetElement.selectionEnd;
+            text = this.targetElement.value.slice(selectionStart, selectionEnd)
+        }
         this.elClipboard.innerText = text;
         this.__selectElementContents__(this.elClipboard);
         this.elClipboard.focus();
