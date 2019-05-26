@@ -5,8 +5,8 @@ class Clipboard {
         isIE11: boolean,
     };
     elClipboard: any;
-    targetElement: HTMLTextAreaElement;
-    constructor(targetElement: HTMLTextAreaElement) {
+    targetElement: any;
+    constructor(targetElement: any) {
         this.targetElement = targetElement;
         this.browser = {
             isChrome: false,
