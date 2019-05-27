@@ -50,12 +50,14 @@ class Clipboard {
         const isContentEditable = this.targetElement.contentEditable;
         const isTextArea = this.targetElement.tagName === 'TEXTAREA';
         let text;
-        if (isContentEditable) {
-            text = window.getSelection().toString();
-        } else if (isTextArea) {
+        if (isTextArea) {
+            console.log('textArea!');
             const selectionStart = this.targetElement.selectionStart;
             const selectionEnd = this.targetElement.selectionEnd;
             text = this.targetElement.value.slice(selectionStart, selectionEnd)
+        } else if (isContentEditable) {
+            console.log('contentEditable!');
+            text = window.getSelection().toString();
         }
         this.elClipboard.innerText = text;
         this.__selectElementContents__(this.elClipboard);
