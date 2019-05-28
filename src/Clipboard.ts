@@ -27,7 +27,7 @@ class Clipboard {
         console.log('copy event is called!');
         const text = window.getSelection().toString();
         e.clipboardData.setData('text/plain', text);
-        e.clipboardData.setData('text/html', text);
+        e.clipboardData.setData('text/html', this.__getSelectedElemenmts__());
         this.elClipboard.innerText = text;
         console.log(this.elClipboard.innerText);
 
@@ -125,6 +125,10 @@ class Clipboard {
             sel.removeAllRanges();
             sel.addRange(range);
         }
+    }
+
+    __getSelectedElemenmts__() {
+        const sel = window.getSelection();
     }
 }
 
