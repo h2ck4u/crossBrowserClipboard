@@ -129,6 +129,7 @@ class Clipboard {
 
     __getSelectedElemenmts__() {
         const sel = window.getSelection();
+
     }
 }
 
