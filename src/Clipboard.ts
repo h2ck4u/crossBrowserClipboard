@@ -128,8 +128,20 @@ class Clipboard {
     }
 
     __getSelectedElemenmts__() {
+        const rootNode = this.targetElement;
         const sel = window.getSelection();
-
+        const anchorNode = sel.anchorNode;
+        const anchorOffset = sel.anchorOffset;
+        const focusNode = sel.focusNode;
+        const focusOffset = sel.focusOffset;
+        let anchorChild = anchorNode;
+        while (anchorChild != rootNode.firstChild) {
+            anchorChild = anchorChild.parentElement;
+        }
+        let focusChild = focusNode;
+        while (focusChild != rootNode.lastChild) {
+            focusChild = focusChild.parentElement;
+        }
     }
 }
 

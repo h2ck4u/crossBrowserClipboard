@@ -15,6 +15,13 @@
     function initCB() {
         var elTextArea = document.getElementById('textArea');
         var cb = new ClipboardJS(elTextArea);
+        setData();
+    }
+
+    function setData() {
+        var elTextArea = document.getElementById('textArea');
+        elTextArea.innerHTML =
+            `<p><span>가나다라마바사</span><span>123456789</span></p><p><span>기니디리미비시</span><span>abcdefghijklmnop</span></p>`;
     }
 </script>
 
