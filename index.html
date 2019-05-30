@@ -14,7 +14,7 @@
 <script>
     function initCB() {
         var elTextArea = document.getElementById('textArea');
-        var cb = new ClipboardJS(elTextArea);
+        window.cb = new ClipboardJS(elTextArea);
         setData();
     }
 

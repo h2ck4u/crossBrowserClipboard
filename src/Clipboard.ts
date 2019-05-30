@@ -128,20 +128,27 @@ class Clipboard {
     }
 
     __getSelectedElemenmts__() {
-        const rootNode = this.targetElement;
+        const rootNode = this.targetElement.cloneNode(true);
         const sel = window.getSelection();
         const anchorNode = sel.anchorNode;
         const anchorOffset = sel.anchorOffset;
+        anchorNode.textContent = anchorNode.textContent.slice(anchorOffset);
+
         const focusNode = sel.focusNode;
         const focusOffset = sel.focusOffset;
+        focusNode.textContent = focusNode.textContent.slice(0, focusOffset);
+
         let anchorChild = anchorNode;
         while (anchorChild != rootNode.firstChild) {
             anchorChild = anchorChild.parentElement;
+            console.log(anchorChild);
         }
         let focusChild = focusNode;
         while (focusChild != rootNode.lastChild) {
             focusChild = focusChild.parentElement;
+            console.log(focusChild);
         }
+        console.log(anchorChild, focusChild);
     }
 }
 
