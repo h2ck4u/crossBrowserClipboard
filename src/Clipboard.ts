@@ -27,7 +27,7 @@ class Clipboard {
         console.log('copy event is called!');
         const text = window.getSelection().toString();
         e.clipboardData.setData('text/plain', text);
-        e.clipboardData.setData('text/html', text);
+        e.clipboardData.setData('text/html', this.__getSelectedElemenmts__());
         this.elClipboard.innerText = text;
         console.log(this.elClipboard.innerText);
 
@@ -96,7 +96,7 @@ class Clipboard {
         const elClipboard = document.createElement('div');
         elClipboard.contentEditable = 'true';
         elClipboard.id = 'clipboard';
-        elClipboard.style.cssText = "width: 200px; height: 100px; border: solid 1px orange";
+        elClipboard.style.cssText = "float:left; width: 200px; height: 100px; border: solid 1px orange";
         document.body.appendChild(elClipboard);
 
         this.elClipboard = elClipboard;
@@ -125,6 +125,12 @@ class Clipboard {
             sel.removeAllRanges();
             sel.addRange(range);
         }
+    }
+
+    __getSelectedElemenmts__() {
+        const sel = window.getSelection();
+        const range = sel.getRangeAt(0);
+        return range.cloneContents();
     }
 }
 

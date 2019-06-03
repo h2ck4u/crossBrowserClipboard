@@ -11,6 +11,7 @@ const config = {
     libraryExport: 'default',
     auxiliaryComment: 'umd comment',
   },
+  devtool: 'inline-source-map',
   module: {
     rules: [{
         test: /\.(ts|tsx)?$/,
