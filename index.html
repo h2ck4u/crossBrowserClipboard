@@ -8,7 +8,8 @@
 </head>
 
 <body onload=initCB();>
-    <div contentEditable=true id="textArea" style="width: 200px; height: 100px; border: solid 1px black"></div>
+    <div contentEditable=true id="textArea" style="float:left; width: 200px; height: 100px; border: solid 1px black">
+    </div>
     <!-- <textArea id="textArea" style="width: 200px; height: 100px; border: solid 1px black"></textArea> -->
 </body>
 <script>
@@ -21,7 +22,8 @@
     function setData() {
         var elTextArea = document.getElementById('textArea');
         elTextArea.innerHTML =
-            `<p><span>가나다라마바사</span><span>123456789</span></p><p><span>기니디리미비시</span><span>abcdefghijklmnop</span></p>`;
+            `<p><span>가나다라마바사</span><span>123456789</span></p><p><span>기니디리미비시</span><span>abcdefghijklmnop</span></p>
+            <p><span>1a2a3a4a5a6a7a8a</span><span>1b2b3b4b5b6b7b8b</span></p><p><span>ㄱ1ㄱ2ㄱ3ㄱ4ㄱ5ㄱ6</span><span>zxcvasdfqwer</span></p>`;
     }
 </script>
 
