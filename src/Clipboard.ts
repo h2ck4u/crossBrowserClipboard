@@ -27,7 +27,7 @@ class Clipboard {
         console.log('copy event is called!');
         const text = window.getSelection().toString();
         e.clipboardData.setData('text/plain', text);
-        e.clipboardData.setData('text/html', this.__getSelectedElemenmts__());
+        // e.clipboardData.setData('text/html', this.__getSelectedElemenmts__());
         this.elClipboard.innerText = text;
         console.log(this.elClipboard.innerText);
 
@@ -129,6 +129,7 @@ class Clipboard {
 
     __getSelectedElemenmts__() {
         const rootNode = this.targetElement;
+        const clonedRoot = this.targetElement.cloneNode(true);
         const sel = window.getSelection();
         const anchorNode = sel.anchorNode;
         const anchorOffset = sel.anchorOffset;
@@ -139,20 +140,42 @@ class Clipboard {
         let anchorChild = anchorNode;
         while (anchorChild != rootNode.firstChild) {
             anchorChild = anchorChild.parentElement;
-            console.log(anchorChild);
         }
         let focusChild = focusNode;
         while (focusChild != rootNode.lastChild) {
             focusChild = focusChild.parentElement;
-            console.log(focusChild);
         }
 
         const clonedAnchorChild = anchorChild.cloneNode(true);
         const clonedFocusChild = focusChild.cloneNode(true);
 
-        clonedAnchorChild.textContent = clonedAnchorChild.textContent.slice(anchorOffset);
-        clonedFocusChild.textContent = clonedFocusChild.textContent.slice(0, focusOffset);
-        console.log(clonedAnchorChild, clonedFocusChild);
+        const tmp = document.createElement('div');
+        tmp.id = 'tmp';
+
+        let isContains = false;
+        for (let i = 0; i < rootNode.childElementCount; i++) {
+            let currNode = rootNode.children[i];
+            if (currNode.isEqualNode(clonedAnchorChild)) {
+                clonedAnchorChild.textContent = clonedAnchorChild.textContent.slice(anchorOffset);
+                tmp.append(clonedAnchorChild);
+                isContains = true;
+            }
+
+            if (currNode.isEqualNode(clonedFocusChild)) {
+                clonedFocusChild.textContent = clonedFocusChild.textContent.slice(0, focusOffset);
+                tmp.append(clonedFocusChild);
+                isContains = false;
+            }
+            if (isContains && !currNode.isEqualNode(clonedAnchorChild)) {
+                tmp.append(currNode.cloneNode(true));
+            }
+        }
+
+        console.log(tmp.innerText);
+
+        // clonedAnchorChild.textContent = clonedAnchorChild.textContent.slice(anchorOffset);
+        // clonedFocusChild.textContent = clonedFocusChild.textContent.slice(0, focusOffset);
+        // console.log(clonedAnchorChild);
     }
 }
 
