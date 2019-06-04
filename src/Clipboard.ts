@@ -26,11 +26,15 @@ class Clipboard {
     copy(e: any) {
         console.log('copy event is called!');
         const text = window.getSelection().toString();
+        const selectedElements = this.__getSelectedElemenmts__();
         e.clipboardData.setData('text/plain', text);
-        e.clipboardData.setData('text/html', this.__getSelectedElemenmts__());
-        this.elClipboard.innerText = text;
-        console.log(this.elClipboard.innerText);
-
+        e.clipboardData.setData('text/html', selectedElements);
+        if (!!selectedElements) {
+            this.elClipboard.innerHTML = selectedElements;
+        } else {
+            this.elClipboard.innerText = text;
+        }
+        console.log(this.elClipboard);
     }
 
     /**
@@ -127,6 +131,9 @@ class Clipboard {
         }
     }
 
+    /**
+     * get cloneContets in Current Range.
+     */
     __getSelectedElemenmts__() {
         const sel = window.getSelection();
         const range = sel.getRangeAt(0);
