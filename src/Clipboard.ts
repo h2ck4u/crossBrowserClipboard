@@ -6,6 +6,14 @@ class Clipboard {
     };
     elClipboard: any;
     targetElement: any;
+    copiedData: {
+        text: String,
+        html: DocumentFragment
+    };
+    pastedData: {
+        text: String,
+        html: DocumentFragment
+    };
     constructor(targetElement: any) {
         this.targetElement = targetElement;
         this.browser = {
@@ -15,6 +23,14 @@ class Clipboard {
         };
         this.init();
         this.copy = this.copy.bind(this);
+        this.copiedData = {
+            text: '',
+            html: null,
+        };
+        this.pastedData = {
+            text: '',
+            html: null,
+        };
     }
 
     init() {
@@ -34,6 +50,11 @@ class Clipboard {
         } else {
             this.elClipboard.innerText = text;
         }
+
+        this.__setCopiedData__({
+            text: text,
+            html: selectedElements
+        });
         console.log(this.elClipboard);
     }
 
@@ -54,6 +75,7 @@ class Clipboard {
         const isContentEditable = this.targetElement.contentEditable;
         const isTextArea = this.targetElement.tagName === 'TEXTAREA';
         let text;
+        let selectedElements;
         if (isTextArea) {
             console.log('textArea!');
             const selectionStart = this.targetElement.selectionStart;
@@ -62,7 +84,13 @@ class Clipboard {
         } else if (isContentEditable) {
             console.log('contentEditable!');
             text = window.getSelection().toString();
+            selectedElements = this.__getSelectedElemenmts__();
         }
+
+        this.__setCopiedData__({
+            text: text,
+            html: selectedElements
+        });
         this.elClipboard.innerText = text;
         this.__selectElementContents__(this.elClipboard);
         this.elClipboard.focus();
@@ -138,6 +166,40 @@ class Clipboard {
         const sel = window.getSelection();
         const range = sel.getRangeAt(0);
         return range.cloneContents();
+    }
+
+    /**
+     * set Copy Data.
+     * @param data {Object}
+     */
+    __setCopiedData__(data: { text: String, html: DocumentFragment }) {
+        this.copiedData.text = data.text;
+        this.copiedData.html = data.html;
+    }
+
+    /**
+     * set Paste Data.
+     * @param data {Object}
+     */
+    __setPastedData__(data: { text: String, html: DocumentFragment }) {
+        this.pastedData.text = data.text;
+        this.pastedData.html = data.html;
+    }
+
+    /**
+     * get Copy Data.
+     * @returns data {Object}
+     */
+    getCopiedData() {
+        return this.copiedData;
+    }
+
+    /**
+     * get Copy Data.
+     * @returns data {Object}
+     */
+    setPasatedData() {
+        return this.pastedData;
     }
 }
 
