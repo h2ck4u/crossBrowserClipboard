@@ -23,12 +23,12 @@ new ClipboardJS(elTextArea);
 
 ### API
 
-# getCopiedData
+#### getCopiedData
 ~~~javascript
   const myClipboard = new ClipboardJS(elTextArea);
   myClipboard.getCopiedData(); // return Object {text: String, html: HTMLElement}
 ~~~
-# getPastedData
+#### getPastedData
 ~~~javascript
   const myClipboard = new ClipboardJS(elTextArea);
   myClipboard.getPastedData(); // return Object {text: String, html: HTMLElement}
