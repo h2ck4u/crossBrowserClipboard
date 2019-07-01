@@ -1,6 +1,7 @@
 ### What is CrossBrowserClipboard?
 
 If you use editor that is not contentEditable Element like textArea. You can get Data from Clipboard or set Data to Clipboard By CrossBrowserClipboard.
+Using typescript.
 
 ### Copy to clipboard for the Web
 
